@@ -2,7 +2,7 @@ import os
 import json
 import requests
 
-serverBaseUrl = "http://localhost:20001"
+serverBaseUrl = "http://85.10.208.45:20001"
 variationsAPIUrl = "{}/variations".format(serverBaseUrl)
 headers = {
     'Content-type': "application/json"
