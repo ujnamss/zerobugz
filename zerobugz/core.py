@@ -2,12 +2,13 @@ import os
 import json
 import requests
 
-serverBaseUrl = "http://85.10.208.45:20001"
+serverBaseUrl = "http://0bugz.com/api"
 variationsAPIUrl = "{}/variations".format(serverBaseUrl)
 headers = {
     'Content-type': "application/json"
 }
 
+# verify=False,
 def load_test_cases(schema, count):
     variationsPayload = None
     with open(schema) as json_data:
