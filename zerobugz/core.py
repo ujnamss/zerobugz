@@ -2,7 +2,7 @@ import os
 import json
 import requests
 
-serverBaseUrl = "http://0bugz.com/api"
+serverBaseUrl = "https://0bugz.com/api"
 variationsAPIUrl = "{}/variations".format(serverBaseUrl)
 headers = {
     'Content-type': "application/json"
