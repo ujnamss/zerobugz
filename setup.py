@@ -18,7 +18,6 @@ setuptools.setup(
         "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Synthetic Data Generation :: Simulation :: Testing",
         ],
     long_description = """\
 Obugz python integration via parameterized annotation
