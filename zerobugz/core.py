@@ -8,16 +8,17 @@ headers = {
     'Content-type': "application/json"
 }
 
-# verify=False,
 def load_test_cases(schema, count):
     variationsPayload = None
     with open(schema) as json_data:
         variationsPayload = json.load(json_data)
 
     if variationsPayload:
+        # Add retry logic
         variationsResponse = requests.post(variationsAPIUrl, headers=headers, data=json.dumps(variationsPayload))
         assert(variationsResponse.status_code >= 200 and variationsResponse.status_code <= 300)
         # print(variationsResponse.text)
+        # Add error conditions
         results = json.loads(variationsResponse.text)['result']
         assert(len(results) == count)
         variations = []
