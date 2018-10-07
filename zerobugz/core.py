@@ -2,7 +2,8 @@ import os
 import json
 import requests
 
-serverBaseUrl = "https://0bugz.com/api"
+api_key = os.getenv("ZB_API_KEY", "default")
+serverBaseUrl = os.getenv("ZB_SERVER_BASE_URL", "https://0bugz.com/api")
 variationsAPIUrl = "{}/variations".format(serverBaseUrl)
 headers = {
     'Content-type': "application/json"
