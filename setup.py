@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name = "zerobugz",
-    version = "0.0.3",
+    version = "0.0.4",
     author = "Manjunath Somashekar",
     author_email = "ujnamss@gmail.com",
     packages = ["zerobugz"],
