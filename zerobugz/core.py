@@ -5,6 +5,7 @@ import requests
 api_key = os.getenv("ZB_API_KEY", "default")
 serverBaseUrl = os.getenv("ZB_SERVER_BASE_URL", "https://0bugz.com/api")
 headers = {
+    'Authorization': api_key,
     'Content-type': "application/json"
 }
 
