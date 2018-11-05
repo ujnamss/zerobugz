@@ -38,6 +38,20 @@ def load_test_cases(schema, count):
                 variations.append((result, ))
     return variations
 
+def get_variations(request_id):
+    headers = {
+        'Authorization': os.getenv("ZB_API_KEY")
+    }
+    get_variations_api_url = "{}/variations?request_id={}".format(serverBaseUrl, request_id)
+    gv_response = requests.get(get_variations_api_url, headers=headers)
+    json_resp = json.loads(gv_response.text)
+    if gv_response.status_code < 200 or gv_response.status_code > 300:
+        assert(json_resp["status"] == 'failure')
+        print("zerobugz: get_variations failed: {}".format(json_resp["message"]))
+    else:
+        assert(json_resp["status"] == 'success')
+    return json_resp['result']
+
 def get_zb_request_id():
     return ctx.request_id
 
