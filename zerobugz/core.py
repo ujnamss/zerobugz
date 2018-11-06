@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import requests
 import threading
@@ -37,6 +38,43 @@ def load_test_cases(schema, count):
             for result in results:
                 variations.append((result, ))
     return variations
+
+def get_test_cases(schema, count):
+    headers['Authorization'] = os.getenv("ZB_API_KEY")
+    testcases_payload = None
+    with open(schema) as json_data:
+        testcases_payload = json.load(json_data)
+
+    testcases = []
+    if testcases_payload:
+        # Add retry logic
+        testcases_API_url = "{}/testcases".format(serverBaseUrl)
+        testcases_API_url = "{}?count={}".format(testcases_API_url, count)
+        testcases_response = requests.post(testcases_API_url, headers=headers, data=json.dumps(testcases_payload))
+        if testcases_response.status_code < 200 or testcases_response.status_code > 300:
+            testcases_response = json.loads(testcases_response.text)
+            assert(testcases_response["status"] == 'failure')
+            print("zerobugz: data generation failed: {}".format(testcases_response["result"]))
+        else:
+            entity = testcases_payload["entity"]
+            expected_value_func = entity["expected_value_func"]["code"]
+            expected_value_func = '\n'.join(expected_value_func)
+            ev_func_name = entity["expected_value_func"]["name"]
+            ev_func = "{}(result)".format(ev_func_name)
+            print("expected_value_func:{}".format(expected_value_func))
+            exec(expected_value_func)
+            json_resp = json.loads(testcases_response.text)
+            request_id = json_resp['request_id']
+            assert(request_id != None)
+            ctx.request_id = request_id
+            print("zerobugz: request_id: {}".format(request_id))
+            results = json_resp['result']
+            assert(len(results) == count)
+            for idx, result in enumerate(results):
+                result["expected_value"] = eval(ev_func)
+                set_expected_value(request_id, idx, result["expected_value"])
+                testcases.append((result, ))
+    return testcases
 
 def get_variations(request_id, tag):
     headers = {
